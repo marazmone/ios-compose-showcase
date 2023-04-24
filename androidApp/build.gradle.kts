@@ -36,3 +36,8 @@ android {
         jvmToolchain(11)
     }
 }
+
+dependencies {
+    implementation("io.insert-koin:koin-core:3.2.2")
+    implementation("io.insert-koin:koin-android:3.2.3")
+}
