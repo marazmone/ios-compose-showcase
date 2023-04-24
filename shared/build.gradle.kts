@@ -33,13 +33,23 @@ kotlin {
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+
+                // Koin
+                api("io.insert-koin:koin-core:3.2.2")
+
+                // Voyager
+                val voyagerVersion = "1.0.0-rc04"
+                implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")
             }
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.activity:activity-compose:1.6.1")
+                api("androidx.activity:activity-compose:1.7.0")
                 api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.9.0")
+                api("androidx.core:core-ktx:1.10.0")
+
+                api("io.ktor:ktor-client-android:2.2.1")
+                implementation("io.coil-kt:coil-compose:2.3.0")
             }
         }
         val iosX64Main by getting
