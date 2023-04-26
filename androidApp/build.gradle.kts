@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     kotlin("multiplatform")
     id("com.android.application")
@@ -35,9 +37,25 @@ android {
     kotlin {
         jvmToolchain(11)
     }
+    composeOptions {
+        val composeVersion = extra["compose.version"] as String
+        kotlinCompilerExtensionVersion = composeVersion
+    }
+    buildFeatures {
+        compose = true
+    }
 }
 
 dependencies {
+    // Compose
+    val composeBom = platform("androidx.compose:compose-bom:2023.04.01")
+    implementation(composeBom)
+
+    // Android Studio Preview support
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+
+    // Koin
     implementation("io.insert-koin:koin-core:3.2.2")
     implementation("io.insert-koin:koin-android:3.2.3")
 }

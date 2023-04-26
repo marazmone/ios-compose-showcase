@@ -20,6 +20,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import presentation.detail.DetailContract.State
 
 internal class DetailScreen(
     private val id: String,
@@ -29,55 +30,71 @@ internal class DetailScreen(
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val viewStateModel by inject<DetailViewStateModel>()
-        val state = viewStateModel.state.value
 
-        LaunchedEffect(Unit) {
-            viewStateModel.getDetailInfo(id)
-        }
+        DetailScreen(
+            state = viewStateModel.state.value,
+            onGetDetailInfo = {
+                viewStateModel.getDetailInfo(id)
+            },
+            onClickPop = {
+                navigator.pop()
+            },
+        )
+    }
+}
 
-        Box(
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            Text(
-                text = "Exit",
-                textAlign = TextAlign.Center,
-                color = Color.Black,
-                modifier = Modifier
-                    .clickable {
-                        navigator.pop()
-                    }
-                    .fillMaxWidth()
-                    .height(60.dp)
-                    .wrapContentHeight()
-                    .align(Alignment.TopCenter),
-            )
-            when {
-                state.isLoading -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                    )
+@Composable
+fun DetailScreen(
+    state: State,
+    onGetDetailInfo: () -> Unit,
+    onClickPop: () -> Unit,
+) {
+    LaunchedEffect(Unit) {
+        onGetDetailInfo.invoke()
+    }
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Text(
+            text = "Exit",
+            textAlign = TextAlign.Center,
+            color = Color.Black,
+            modifier = Modifier
+                .clickable {
+                    onClickPop.invoke()
                 }
+                .fillMaxWidth()
+                .height(60.dp)
+                .wrapContentHeight()
+                .align(Alignment.TopCenter),
+        )
+        when {
+            state.isLoading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
 
-                state.isError -> {
-                    Text(
-                        text = state.errorMessage,
-                        color = Color.Red,
-                        modifier = Modifier.align(Alignment.Center),
-                    )
-                }
+            state.isError -> {
+                Text(
+                    text = state.errorMessage,
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
 
-                else -> {
-                    Text(
-                        text = state.detail,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(42.dp)
-                            .wrapContentHeight()
-                            .align(Alignment.Center),
-                        textAlign = TextAlign.Center,
-                        color = Color.Green,
-                    )
-                }
+            else -> {
+                Text(
+                    text = state.detail,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(42.dp)
+                        .wrapContentHeight()
+                        .align(Alignment.Center),
+                    textAlign = TextAlign.Center,
+                    color = Color.Green,
+                )
             }
         }
     }
