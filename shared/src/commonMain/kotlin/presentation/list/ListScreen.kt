@@ -19,10 +19,13 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import kotlinx.coroutines.flow.Flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import presentation.detail.DetailScreen
+import presentation.list.ListContract.Effect
 import presentation.list.ListContract.Effect.OpenDetailScreen
+import presentation.list.ListContract.State
 import presentation.util.listen
 
 internal class ListScreen : Screen, KoinComponent {
@@ -31,49 +34,67 @@ internal class ListScreen : Screen, KoinComponent {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val viewStateModel by inject<ListViewStateModel>()
-        val state = viewStateModel.state.value
 
-        viewStateModel.effects.listen { effect ->
-            when (effect) {
-                is OpenDetailScreen -> {
-                    navigator.push(DetailScreen(effect.id))
-                }
+        ListScreen(
+            state = viewStateModel.state.value,
+            effects = viewStateModel.effects,
+            onNavigateToDetail = { id ->
+                navigator.push(DetailScreen(id))
+            },
+            onOpenDetailScreen = { id ->
+                viewStateModel.openDetailScreen(id)
+            },
+        )
+    }
+}
+
+@Composable
+fun ListScreen(
+    state: State,
+    effects: Flow<Effect>,
+    onNavigateToDetail: (id: String) -> Unit,
+    onOpenDetailScreen: (id: String) -> Unit,
+) {
+    effects.listen { effect ->
+        when (effect) {
+            is OpenDetailScreen -> {
+                onNavigateToDetail.invoke(effect.id)
             }
         }
+    }
 
-        Box(
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            when {
-                state.isLoading -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                    )
-                }
+    Box(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        when {
+            state.isLoading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
 
-                state.isError -> {
-                    Text(
-                        text = state.errorMessage,
-                        color = Color.Red,
-                        modifier = Modifier.align(Alignment.Center),
-                    )
-                }
+            state.isError -> {
+                Text(
+                    text = state.errorMessage,
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
 
-                else -> {
-                    LazyColumn {
-                        itemsIndexed(state.list) { index, item ->
-                            Text(
-                                text = item,
-                                modifier = Modifier
-                                    .clickable {
-                                        viewStateModel.openDetailScreen(index.toString())
-                                    }
-                                    .fillMaxWidth()
-                                    .height(60.dp)
-                                    .wrapContentHeight(),
-                                textAlign = TextAlign.Center,
-                            )
-                        }
+            else -> {
+                LazyColumn {
+                    itemsIndexed(state.list) { index, item ->
+                        Text(
+                            text = item,
+                            modifier = Modifier
+                                .clickable {
+                                    onOpenDetailScreen.invoke(index.toString())
+                                }
+                                .fillMaxWidth()
+                                .height(60.dp)
+                                .wrapContentHeight(),
+                            textAlign = TextAlign.Center,
+                        )
                     }
                 }
             }
