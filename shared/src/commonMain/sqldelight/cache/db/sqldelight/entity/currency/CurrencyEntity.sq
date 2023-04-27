@@ -1,0 +1,64 @@
+CREATE TABLE currencyEntity (
+    id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    symbol TEXT NOT NULL,
+    maxSupply REAL NOT NULL,
+    circulatingSupply REAL NOT NULL,
+    totalSupply REAL NOT NULL,
+    cmcRank INTEGER NOT NULL,
+    lastUpdated TEXT NOT NULL,
+    price REAL NOT NULL,
+    percentChange1h REAL NOT NULL,
+    percentChange24h REAL NOT NULL,
+    percentChange7d REAL NOT NULL,
+    marketCap REAL NOT NULL,
+    imageUrl TEXT NOT NULL,
+    high24h REAL NOT NULL,
+    low24h REAL NOT NULL,
+    ath REAL NOT NULL,
+    athChangePercentage REAL NOT NULL,
+    athDate INTEGER NOT NULL,
+    atl REAL NOT NULL,
+    atlChangePercentage REAL NOT NULL,
+    atlDate INTEGER NOT NULL,
+    totalValue REAL NOT NULL
+);
+
+CREATE INDEX currencyEntity_id ON currencyEntity(id);
+
+selectAll:
+SELECT *
+FROM currencyEntity;
+
+selectById:
+SELECT *
+FROM currencyEntity
+WHERE id = ?;
+
+insertEntity:
+INSERT INTO currencyEntity(
+    id,
+    name,
+    symbol,
+    maxSupply,
+    circulatingSupply,
+    totalSupply,
+    cmcRank,
+    lastUpdated,
+    price,
+    percentChange1h,
+    percentChange24h,
+    percentChange7d,
+    marketCap,
+    imageUrl,
+    high24h,
+    low24h,
+    ath,
+    athChangePercentage,
+    athDate,
+    atl,
+    atlChangePercentage,
+    atlDate,
+    totalValue
+)
+VALUES ?;
