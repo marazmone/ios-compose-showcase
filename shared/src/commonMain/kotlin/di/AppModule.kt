@@ -3,5 +3,10 @@ package di
 fun appModules() = listOf(
     useCaseModule(),
     screenStateModelModule(),
-    platformModule()
+    platformModule(),
+    cacheModule(),
+    remoteModule(),
+    mapperModule(),
+    repositoryModule(),
+    dataSourceModule(),
 )

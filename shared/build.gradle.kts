@@ -41,8 +41,7 @@ kotlin {
                 api("io.insert-koin:koin-core:3.3.0")
 
                 // Voyager
-                val voyagerVersion = "1.0.0-rc04"
-                implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")
+                implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-rc04")
 
                 // Ktor
                 implementation("io.ktor:ktor-client-core:2.2.1")
@@ -58,7 +57,11 @@ kotlin {
                 // DataTime
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 
+                // sqldelight
                 implementation("app.cash.sqldelight:coroutines-extensions:2.0.0-alpha05")
+
+                // Logger
+                implementation("io.github.aakira:napier:2.6.1")
             }
         }
         val androidMain by getting {

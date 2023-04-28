@@ -3,7 +3,7 @@ package com.myapplication.preview.list
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import kotlinx.coroutines.flow.emptyFlow
+import domain.model.currency.CurrencyListItem
 import presentation.list.ListContract.State
 import presentation.list.ListScreen
 
@@ -18,11 +18,10 @@ fun ListScreenPreview() {
     MaterialTheme {
         ListScreen(
             state = State(
-                list = List(10) { "Item $it" }
+                list = CurrencyListItem.mockList(),
             ),
-            effects = emptyFlow(),
-            onNavigateToDetail = {},
-            onOpenDetailScreen = {},
+            onRefresh = {},
+            onOpenDetailScreenAction = {},
         )
     }
 }

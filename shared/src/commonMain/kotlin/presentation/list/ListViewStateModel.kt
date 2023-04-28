@@ -1,22 +1,25 @@
 package presentation.list
 
-import domain.list.ListGetUseCase
+import domain.usecase.currency.CurrencyGetAllUseCase
+import domain.usecase.currency.CurrencyObserveAllUseCase
 import kotlinx.coroutines.launch
 import presentation.base.BaseScreenStateModel
 import presentation.list.ListContract.Action
 import presentation.list.ListContract.Action.Error
 import presentation.list.ListContract.Action.Loading
+import presentation.list.ListContract.Action.Refresh
 import presentation.list.ListContract.Action.Success
 import presentation.list.ListContract.Effect
-import presentation.list.ListContract.Effect.OpenDetailScreen
 import presentation.list.ListContract.State
 
 class ListViewStateModel(
-    private val listGetUseCase: ListGetUseCase,
+    private val currencyGetAllUseCase: CurrencyGetAllUseCase,
+    private val currencyObserveAllUseCase: CurrencyObserveAllUseCase,
 ) : BaseScreenStateModel<State, Action, Effect>() {
 
     init {
-        getList()
+        getAllCurrency(false)
+        observeAllCurrency()
     }
 
     override fun setInitialState(): State = State()
@@ -27,29 +30,48 @@ class ListViewStateModel(
             isError = true,
             errorMessage = action.errorMessage,
             list = emptyList(),
+            isRefresh = false,
         )
 
         is Loading -> currentState.copy(
             isLoading = true,
-            isError = false
+            isError = false,
+            isRefresh = false,
         )
 
         is Success -> currentState.copy(
             isLoading = false,
             isError = false,
-            list = action.list
+            list = action.list,
+            isRefresh = false,
         )
-    }
 
-    private fun getList() {
-        launch {
-            sendAction { Loading }
-            val result = listGetUseCase.execute()
-            sendAction { Success(result) }
+        is Refresh -> {
+            currentState.copy(
+                isRefresh = true,
+                isError = false,
+            )
         }
     }
 
-    fun openDetailScreen(id: String) {
-        sendEffect { OpenDetailScreen(id) }
+    fun getAllCurrency(withRefresh: Boolean = false) {
+        launch {
+            sendAction {
+                if (withRefresh) Refresh else Loading
+            }
+            runCatching {
+                currencyGetAllUseCase.execute()
+            }.onFailure {
+                sendAction { Error(it.message.orEmpty()) }
+            }
+        }
+    }
+
+    private fun observeAllCurrency() {
+        launch {
+            currencyObserveAllUseCase.execute().collect { list ->
+                if (list.isNotEmpty()) sendAction { Success(list) }
+            }
+        }
     }
 }

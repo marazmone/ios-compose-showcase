@@ -6,7 +6,7 @@ import data.utils.orZero
 import domain.mapper.base.Mapper
 import kotlinx.datetime.Instant
 
-class CurrencyResponseToEntity : Mapper<CurrencyResponse, CurrencyEntity> {
+class CurrencyResponseToEntityMapper : Mapper<CurrencyResponse, CurrencyEntity> {
 
     override fun map(source: CurrencyResponse): CurrencyEntity =
         CurrencyEntity(
