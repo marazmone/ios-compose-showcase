@@ -1,6 +1,6 @@
 package presentation.detail
 
-import domain.detail.DetailGetUseCase
+import domain.usecase.detail.DetailGetUseCase
 import kotlinx.coroutines.launch
 import presentation.base.BaseScreenStateModel
 import presentation.detail.DetailContract.Action

@@ -1,4 +1,4 @@
-package domain.detail
+package domain.usecase.detail
 
 import kotlinx.coroutines.delay
 

@@ -1,6 +1,6 @@
 package presentation.list
 
-import domain.list.ListGetUseCase
+import domain.usecase.list.CountryGetAllRemoteUseCase
 import kotlinx.coroutines.launch
 import presentation.base.BaseScreenStateModel
 import presentation.list.ListContract.Action
@@ -12,7 +12,7 @@ import presentation.list.ListContract.Effect.OpenDetailScreen
 import presentation.list.ListContract.State
 
 class ListViewStateModel(
-    private val listGetUseCase: ListGetUseCase,
+    private val countryGetAllRemoteUseCase: CountryGetAllRemoteUseCase,
 ) : BaseScreenStateModel<State, Action, Effect>() {
 
     init {
@@ -44,8 +44,13 @@ class ListViewStateModel(
     private fun getList() {
         launch {
             sendAction { Loading }
-            val result = listGetUseCase.execute()
-            sendAction { Success(result) }
+            runCatching {
+                countryGetAllRemoteUseCase.execute()
+            }.onSuccess {
+                sendAction { Success(it) }
+            }.onFailure {
+                sendAction { Error(it.message.orEmpty()) }
+            }
         }
     }
 

@@ -1,13 +1,17 @@
 # Project for practicing skills in KMM and IOS compose
 
+## API
+
+[REST COUNTRIES](https://restcountries.com/) - This project is inspired on restcountries.eu by Fayder Florez. Although the original project has now moved to a subscription base API, this project is still Open Source and Free to use.
+
 ## Tech Stack
 
 - [Voyager](https://github.com/adrielcafe/voyager) - A multiplatform navigation library
 - [Koin](https://insert-koin.io/) - dependency injection framework
+- [Ktor](https://ktor.io/) - Ktor is a lightweight, high-performance framework for building asynchronous client-side mobile apps using Kotlin
+- [Napier](https://github.com/AAkira/Napier) - Napier is a logger library for Kotlin Multiplatform
 
 ## Examples:
 
-https://user-images.githubusercontent.com/7988862/234124015-83279926-46ca-4c22-9761-0c0713109f6e.mp4
 
-https://user-images.githubusercontent.com/7988862/234124042-9ae9c9ee-01aa-4990-a9e0-949beedb66b3.MP4
 
