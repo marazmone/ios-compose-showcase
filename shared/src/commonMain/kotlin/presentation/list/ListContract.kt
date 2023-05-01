@@ -1,5 +1,6 @@
 package presentation.list
 
+import domain.model.CountryModel
 import presentation.base.BaseViewAction
 import presentation.base.BaseViewEffect
 import presentation.base.BaseViewState
@@ -10,7 +11,7 @@ class ListContract {
         val isLoading: Boolean = false,
         val isError: Boolean = false,
         val errorMessage: String = "",
-        val list: List<String> = emptyList(),
+        val list: List<CountryModel> = emptyList(),
     ) : BaseViewState
 
     sealed interface Action : BaseViewAction {
@@ -19,7 +20,7 @@ class ListContract {
 
         data class Error(val errorMessage: String) : Action
 
-        data class Success(val list: List<String>) : Action
+        data class Success(val list: List<CountryModel>) : Action
     }
 
     sealed interface Effect : BaseViewEffect {

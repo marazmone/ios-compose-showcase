@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
+    kotlin("plugin.serialization") version "1.8.20"
     id("com.android.library")
     id("org.jetbrains.compose")
 }
@@ -35,16 +36,26 @@ kotlin {
                 implementation(compose.components.resources)
 
                 // Koin
-                api("io.insert-koin:koin-core:3.2.2")
+                api("io.insert-koin:koin-core:3.4.0")
 
                 // Voyager
-                val voyagerVersion = "1.0.0-rc04"
-                implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")
+                implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-rc04")
+
+                // Ktor
+                implementation("io.ktor:ktor-client-core:2.2.1")
+                implementation("io.ktor:ktor-client-content-negotiation:2.2.1")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.1")
+                implementation("io.ktor:ktor-client-json:2.2.1")
+                implementation("io.ktor:ktor-client-logging:2.2.1")
+                implementation("io.ktor:ktor-client-serialization:2.2.1")
+
+                // Logger
+                implementation("io.github.aakira:napier:2.6.1")
             }
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.activity:activity-compose:1.7.0")
+                api("androidx.activity:activity-compose:1.7.1")
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.10.0")
 
@@ -60,6 +71,9 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+                implementation("io.ktor:ktor-client-darwin:2.2.1")
+            }
         }
     }
 }

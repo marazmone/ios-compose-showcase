@@ -56,6 +56,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     // Koin
-    implementation("io.insert-koin:koin-core:3.2.2")
-    implementation("io.insert-koin:koin-android:3.2.3")
+    implementation("io.insert-koin:koin-core:3.4.0")
+    implementation("io.insert-koin:koin-android:3.4.0")
 }
