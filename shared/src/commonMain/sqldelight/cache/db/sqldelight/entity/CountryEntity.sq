@@ -1,0 +1,17 @@
+CREATE TABLE countryEntity (
+    name TEXT NOT NULL,
+    imageUrl TEXT NOT NULL
+);
+
+CREATE INDEX countryEntity_name ON countryEntity(name);
+
+selectAll:
+SELECT *
+FROM countryEntity;
+
+insertEntity:
+INSERT INTO countryEntity(
+    name,
+    imageUrl
+)
+VALUES ?;

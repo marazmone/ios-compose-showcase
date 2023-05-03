@@ -1,10 +1,13 @@
 package di
 
+import cache.db.sqldelight.entity.CountryEntity
 import data.datasource.CountryCacheDataSource
 import data.datasource.CountryCacheDataSourceImpl
 import data.datasource.CountryRemoteDataSource
 import data.datasource.CountryRemoteDataSourceImpl
-import data.mapper.CountryResponseToModelMapper
+import data.db.createDatabase
+import data.mapper.CountryEntityToModelMapper
+import data.mapper.CountryResponseToEntityMapper
 import data.remote.RemoteConst
 import data.remote.response.CountryResponse
 import data.repository.CountryRepositoryImpl
@@ -13,6 +16,7 @@ import domain.model.CountryModel
 import domain.repository.CountryRepository
 import domain.usecase.detail.DetailGetUseCase
 import domain.usecase.list.CountryGetAllRemoteUseCase
+import domain.usecase.list.CountryObserveAllCacheUseCase
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
@@ -33,7 +37,9 @@ import presentation.detail.DetailViewStateModel
 import presentation.list.ListViewStateModel
 
 fun cacheModule() = module {
-
+    single {
+        createDatabase(get())
+    }
 }
 
 fun remoteModule() = module {
@@ -79,8 +85,11 @@ fun remoteModule() = module {
 }
 
 fun mapperModule() = module {
-    factory<Mapper<CountryResponse, CountryModel>> {
-        CountryResponseToModelMapper()
+    factory<Mapper<CountryResponse, CountryEntity>> {
+        CountryResponseToEntityMapper()
+    }
+    factory<Mapper<CountryEntity, CountryModel>> {
+        CountryEntityToModelMapper()
     }
 }
 
@@ -89,7 +98,7 @@ fun dataSourceModule() = module {
         CountryRemoteDataSourceImpl(get())
     }
     single<CountryCacheDataSource> {
-        CountryCacheDataSourceImpl()
+        CountryCacheDataSourceImpl(get())
     }
 }
 
@@ -98,17 +107,24 @@ fun repositoryModule() = module {
         CountryRepositoryImpl(
             remote = get(),
             cache = get(),
-            responseToModelMapper = get(),
+            responseToEntityMapper = get(),
+            entityToModelMapper = get(),
         )
     }
 }
 
 fun useCaseModule() = module {
     factory { CountryGetAllRemoteUseCase(get()) }
+    factory { CountryObserveAllCacheUseCase(get()) }
     factory { DetailGetUseCase() }
 }
 
 fun screenStateModelModule() = module {
-    single { ListViewStateModel(countryGetAllRemoteUseCase = get()) }
+    single {
+        ListViewStateModel(
+            countryGetAllRemoteUseCase = get(),
+            countryObserveAllCacheUseCase = get(),
+        )
+    }
     single { DetailViewStateModel(detailGetUseCase = get()) }
 }

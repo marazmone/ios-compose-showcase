@@ -1,6 +1,7 @@
 package presentation.list
 
 import domain.usecase.list.CountryGetAllRemoteUseCase
+import domain.usecase.list.CountryObserveAllCacheUseCase
 import kotlinx.coroutines.launch
 import presentation.base.BaseScreenStateModel
 import presentation.list.ListContract.Action
@@ -13,10 +14,12 @@ import presentation.list.ListContract.State
 
 class ListViewStateModel(
     private val countryGetAllRemoteUseCase: CountryGetAllRemoteUseCase,
+    private val countryObserveAllCacheUseCase: CountryObserveAllCacheUseCase,
 ) : BaseScreenStateModel<State, Action, Effect>() {
 
     init {
         getList()
+        observeList()
     }
 
     override fun setInitialState(): State = State()
@@ -41,20 +44,26 @@ class ListViewStateModel(
         )
     }
 
+    fun openDetailScreen(id: String) {
+        sendEffect { OpenDetailScreen(id) }
+    }
+
     private fun getList() {
         launch {
             sendAction { Loading }
             runCatching {
                 countryGetAllRemoteUseCase.execute()
-            }.onSuccess {
-                sendAction { Success(it) }
             }.onFailure {
                 sendAction { Error(it.message.orEmpty()) }
             }
         }
     }
 
-    fun openDetailScreen(id: String) {
-        sendEffect { OpenDetailScreen(id) }
+    private fun observeList() {
+        launch {
+            countryObserveAllCacheUseCase.execute().collect { list ->
+                if (list.isNotEmpty()) sendAction { Success(list) }
+            }
+        }
     }
 }
