@@ -1,6 +1,6 @@
 package data.datasource
 
-import cache.db.sqldelight.entity.CountryEntity
+import data.cache.entity.CountryEntity
 import data.remote.response.CountryResponse
 import kotlinx.coroutines.flow.Flow
 

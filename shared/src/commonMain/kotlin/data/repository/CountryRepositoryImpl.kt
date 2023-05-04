@@ -1,6 +1,6 @@
 package data.repository
 
-import cache.db.sqldelight.entity.CountryEntity
+import data.cache.entity.CountryEntity
 import data.datasource.CountryCacheDataSource
 import data.datasource.CountryRemoteDataSource
 import data.remote.response.CountryResponse

@@ -4,7 +4,7 @@ plugins {
     kotlin("plugin.serialization") version "1.8.20"
     id("com.android.library")
     id("org.jetbrains.compose")
-    id("app.cash.sqldelight") version "2.0.0-alpha05"
+    id("io.realm.kotlin") version "1.8.0"
 }
 
 kotlin {
@@ -53,8 +53,9 @@ kotlin {
                 // Logger
                 implementation("io.github.aakira:napier:2.6.1")
 
-                // sqldelight
-                implementation("app.cash.sqldelight:coroutines-extensions:2.0.0-alpha05")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-RC")
+                implementation("io.realm.kotlin:library-base:1.8.0")
+                implementation("io.realm.kotlin:library-sync:1.8.0")
             }
         }
         val androidMain by getting {
@@ -65,7 +66,6 @@ kotlin {
 
                 api("io.ktor:ktor-client-android:2.2.1")
                 implementation("io.coil-kt:coil-compose:2.3.0")
-                implementation("app.cash.sqldelight:android-driver:2.0.0-alpha05")
             }
         }
         val iosX64Main by getting
@@ -78,15 +78,6 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation("io.ktor:ktor-client-darwin:2.2.1")
-                implementation("app.cash.sqldelight:native-driver:2.0.0-alpha05")
-            }
-        }
-    }
-
-    sqldelight {
-        databases {
-            create("Database") {
-                packageName.set("cache.db")
             }
         }
     }

@@ -1,11 +1,10 @@
 package di
 
-import cache.db.sqldelight.entity.CountryEntity
+import data.cache.entity.CountryEntity
 import data.datasource.CountryCacheDataSource
 import data.datasource.CountryCacheDataSourceImpl
 import data.datasource.CountryRemoteDataSource
 import data.datasource.CountryRemoteDataSourceImpl
-import data.db.createDatabase
 import data.mapper.CountryEntityToModelMapper
 import data.mapper.CountryResponseToEntityMapper
 import data.remote.RemoteConst
@@ -31,14 +30,24 @@ import io.ktor.http.ContentType
 import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
 import kotlinx.serialization.json.Json
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import presentation.detail.DetailViewStateModel
 import presentation.list.ListViewStateModel
 
 fun cacheModule() = module {
     single {
-        createDatabase(get())
+        val builder = RealmConfiguration.Builder(
+            schema = setOf(
+                CountryEntity::class,
+            )
+        )
+        builder.schemaVersion(1)
+        builder.deleteRealmIfMigrationNeeded()
+        Realm.open(builder.build())
     }
 }
 
@@ -85,10 +94,10 @@ fun remoteModule() = module {
 }
 
 fun mapperModule() = module {
-    factory<Mapper<CountryResponse, CountryEntity>> {
+    factory<Mapper<CountryResponse, CountryEntity>>(named(CountryResponseToEntityMapper.NAMED)) {
         CountryResponseToEntityMapper()
     }
-    factory<Mapper<CountryEntity, CountryModel>> {
+    factory<Mapper<CountryEntity, CountryModel>>(named(CountryEntityToModelMapper.NAMED)) {
         CountryEntityToModelMapper()
     }
 }
@@ -107,8 +116,8 @@ fun repositoryModule() = module {
         CountryRepositoryImpl(
             remote = get(),
             cache = get(),
-            responseToEntityMapper = get(),
-            entityToModelMapper = get(),
+            responseToEntityMapper = get(named(CountryResponseToEntityMapper.NAMED)),
+            entityToModelMapper = get(named(CountryEntityToModelMapper.NAMED)),
         )
     }
 }
