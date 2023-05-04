@@ -4,6 +4,7 @@ plugins {
     kotlin("plugin.serialization") version "1.8.20"
     id("com.android.library")
     id("org.jetbrains.compose")
+    id("io.realm.kotlin") version "1.8.0"
 }
 
 kotlin {
@@ -51,6 +52,10 @@ kotlin {
 
                 // Logger
                 implementation("io.github.aakira:napier:2.6.1")
+
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-RC")
+                implementation("io.realm.kotlin:library-base:1.8.0")
+                implementation("io.realm.kotlin:library-sync:1.8.0")
             }
         }
         val androidMain by getting {

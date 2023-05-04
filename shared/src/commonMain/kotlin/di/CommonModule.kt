@@ -1,10 +1,12 @@
 package di
 
+import data.cache.entity.CountryEntity
 import data.datasource.CountryCacheDataSource
 import data.datasource.CountryCacheDataSourceImpl
 import data.datasource.CountryRemoteDataSource
 import data.datasource.CountryRemoteDataSourceImpl
-import data.mapper.CountryResponseToModelMapper
+import data.mapper.CountryEntityToModelMapper
+import data.mapper.CountryResponseToEntityMapper
 import data.remote.RemoteConst
 import data.remote.response.CountryResponse
 import data.repository.CountryRepositoryImpl
@@ -13,6 +15,7 @@ import domain.model.CountryModel
 import domain.repository.CountryRepository
 import domain.usecase.detail.DetailGetUseCase
 import domain.usecase.list.CountryGetAllRemoteUseCase
+import domain.usecase.list.CountryObserveAllCacheUseCase
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
@@ -27,13 +30,25 @@ import io.ktor.http.ContentType
 import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
 import kotlinx.serialization.json.Json
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import presentation.detail.DetailViewStateModel
 import presentation.list.ListViewStateModel
 
 fun cacheModule() = module {
-
+    single {
+        val builder = RealmConfiguration.Builder(
+            schema = setOf(
+                CountryEntity::class,
+            )
+        )
+        builder.schemaVersion(1)
+        builder.deleteRealmIfMigrationNeeded()
+        Realm.open(builder.build())
+    }
 }
 
 fun remoteModule() = module {
@@ -79,8 +94,11 @@ fun remoteModule() = module {
 }
 
 fun mapperModule() = module {
-    factory<Mapper<CountryResponse, CountryModel>> {
-        CountryResponseToModelMapper()
+    factory<Mapper<CountryResponse, CountryEntity>>(named(CountryResponseToEntityMapper.NAMED)) {
+        CountryResponseToEntityMapper()
+    }
+    factory<Mapper<CountryEntity, CountryModel>>(named(CountryEntityToModelMapper.NAMED)) {
+        CountryEntityToModelMapper()
     }
 }
 
@@ -89,7 +107,7 @@ fun dataSourceModule() = module {
         CountryRemoteDataSourceImpl(get())
     }
     single<CountryCacheDataSource> {
-        CountryCacheDataSourceImpl()
+        CountryCacheDataSourceImpl(get())
     }
 }
 
@@ -98,17 +116,24 @@ fun repositoryModule() = module {
         CountryRepositoryImpl(
             remote = get(),
             cache = get(),
-            responseToModelMapper = get(),
+            responseToEntityMapper = get(named(CountryResponseToEntityMapper.NAMED)),
+            entityToModelMapper = get(named(CountryEntityToModelMapper.NAMED)),
         )
     }
 }
 
 fun useCaseModule() = module {
     factory { CountryGetAllRemoteUseCase(get()) }
+    factory { CountryObserveAllCacheUseCase(get()) }
     factory { DetailGetUseCase() }
 }
 
 fun screenStateModelModule() = module {
-    single { ListViewStateModel(countryGetAllRemoteUseCase = get()) }
+    single {
+        ListViewStateModel(
+            countryGetAllRemoteUseCase = get(),
+            countryObserveAllCacheUseCase = get(),
+        )
+    }
     single { DetailViewStateModel(detailGetUseCase = get()) }
 }

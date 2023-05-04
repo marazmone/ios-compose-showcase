@@ -1,20 +1,18 @@
 package data.datasource
 
+import data.cache.entity.CountryEntity
 import data.remote.response.CountryResponse
+import kotlinx.coroutines.flow.Flow
 
 interface CountryCacheDataSource {
 
-    suspend fun saveOne()
+    suspend fun save(entity: CountryEntity)
 
-    suspend fun saveAll()
+    suspend fun saveAll(entities: List<CountryEntity>)
 
-    suspend fun getById()
+    suspend fun getAll(): List<CountryEntity>
 
-    suspend fun getAll()
-
-    fun observeAll()
-
-    fun observeById()
+    fun observeAll(): Flow<List<CountryEntity>>
 }
 
 interface CountryRemoteDataSource {
