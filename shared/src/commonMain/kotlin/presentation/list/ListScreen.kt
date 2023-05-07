@@ -1,11 +1,17 @@
 package presentation.list
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.add
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,6 +20,10 @@ import androidx.compose.ui.graphics.Color
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.moriatsushi.insetsx.navigationBars
+import com.moriatsushi.insetsx.safeDrawing
+import com.moriatsushi.insetsx.statusBars
+import com.moriatsushi.insetsx.systemBars
 import domain.model.CountryModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -82,7 +92,9 @@ fun ListScreen(
             }
 
             else -> {
-                LazyColumn {
+                LazyColumn(
+                    contentPadding = WindowInsets.statusBars.add(WindowInsets.navigationBars).asPaddingValues(),
+                ) {
                     items(state.list) { item ->
                         CountryItem(
                             model = item,
