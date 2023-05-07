@@ -30,6 +30,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 api(compose.material)
@@ -53,9 +54,12 @@ kotlin {
                 // Logger
                 implementation("io.github.aakira:napier:2.6.1")
 
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-RC")
+                // Realm
                 implementation("io.realm.kotlin:library-base:1.8.0")
                 implementation("io.realm.kotlin:library-sync:1.8.0")
+
+                // Insets
+                implementation("com.moriatsushi.insetsx:insetsx:0.1.0-alpha04")
             }
         }
         val androidMain by getting {
