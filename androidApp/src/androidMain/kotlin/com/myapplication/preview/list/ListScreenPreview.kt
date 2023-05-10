@@ -2,7 +2,7 @@ package com.myapplication.preview.list
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import presentation.list.ListScreenPreview
+import presentation.tabs.list.ListScreenPreview
 
 @Preview(
     showBackground = true,

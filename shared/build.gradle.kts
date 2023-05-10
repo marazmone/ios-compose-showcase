@@ -33,7 +33,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
                 implementation(compose.runtime)
                 implementation(compose.foundation)
-                api(compose.material)
+                api(compose.material3)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
 
@@ -41,7 +41,8 @@ kotlin {
                 api("io.insert-koin:koin-core:3.4.0")
 
                 // Voyager
-                implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-rc04")
+                implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-rc06")
+                implementation("cafe.adriel.voyager:voyager-tab-navigator:1.0.0-rc06")
 
                 // Ktor
                 implementation("io.ktor:ktor-client-core:2.2.1")

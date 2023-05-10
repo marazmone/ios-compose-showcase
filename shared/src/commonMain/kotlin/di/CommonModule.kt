@@ -35,8 +35,8 @@ import io.realm.kotlin.RealmConfiguration
 import kotlinx.serialization.json.Json
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import presentation.detail.DetailViewStateModel
-import presentation.list.ListViewStateModel
+import presentation.tabs.list.detail.DetailViewStateModel
+import presentation.tabs.list.ListViewStateModel
 
 fun cacheModule() = module {
     single {

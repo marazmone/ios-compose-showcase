@@ -1,16 +1,16 @@
-package presentation.list
+package presentation.tabs.list
 
 import domain.usecase.list.CountryGetAllRemoteUseCase
 import domain.usecase.list.CountryObserveAllCacheUseCase
 import kotlinx.coroutines.launch
 import presentation.base.BaseScreenStateModel
-import presentation.list.ListContract.Action
-import presentation.list.ListContract.Action.Error
-import presentation.list.ListContract.Action.Loading
-import presentation.list.ListContract.Action.Success
-import presentation.list.ListContract.Effect
-import presentation.list.ListContract.Effect.OpenDetailScreen
-import presentation.list.ListContract.State
+import presentation.tabs.list.ListContract.Action
+import presentation.tabs.list.ListContract.Action.Error
+import presentation.tabs.list.ListContract.Action.Loading
+import presentation.tabs.list.ListContract.Action.Success
+import presentation.tabs.list.ListContract.Effect
+import presentation.tabs.list.ListContract.Effect.OpenDetailScreen
+import presentation.tabs.list.ListContract.State
 
 class ListViewStateModel(
     private val countryGetAllRemoteUseCase: CountryGetAllRemoteUseCase,

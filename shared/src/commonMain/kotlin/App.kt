@@ -1,12 +1,12 @@
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.Navigator
-import presentation.list.ListScreen
+import presentation.tabs.list.ListTab
+import presentation.ui.AppTheme
 
 @Composable
 fun App() {
-    MaterialTheme {
-        Navigator(ListScreen())
+    AppTheme {
+        Navigator(ListTab)
     }
 }
 

@@ -1,17 +1,16 @@
-package presentation.list
+package presentation.tabs.list.detail
 
-import domain.model.CountryModel
 import presentation.base.BaseViewAction
 import presentation.base.BaseViewEffect
 import presentation.base.BaseViewState
 
-class ListContract {
+class DetailContract {
 
     data class State(
         val isLoading: Boolean = false,
         val isError: Boolean = false,
         val errorMessage: String = "",
-        val list: List<CountryModel> = emptyList(),
+        val detail: String = "",
     ) : BaseViewState
 
     sealed interface Action : BaseViewAction {
@@ -20,11 +19,8 @@ class ListContract {
 
         data class Error(val errorMessage: String) : Action
 
-        data class Success(val list: List<CountryModel>) : Action
+        data class Success(val detail: String) : Action
     }
 
-    sealed interface Effect : BaseViewEffect {
-
-        data class OpenDetailScreen(val id: String) : Effect
-    }
+    sealed interface Effect : BaseViewEffect
 }
