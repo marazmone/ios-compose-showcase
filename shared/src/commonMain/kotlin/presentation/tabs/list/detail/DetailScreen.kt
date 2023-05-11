@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import io.github.aakira.napier.Napier
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import presentation.tabs.list.detail.DetailContract.State

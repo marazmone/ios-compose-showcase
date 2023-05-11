@@ -1,5 +1,6 @@
 package presentation.tabs.list.composable
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -14,9 +15,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,9 +31,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import domain.model.CountryModel
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import presentation.ui.AppTheme
 import presentation.util.AsyncImage
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun CountryItem(
     model: CountryModel,
@@ -47,19 +56,16 @@ fun CountryItem(
             .height(60.dp),
         shape = MaterialTheme.shapes.large,
     ) {
-        Column() {
+        Column {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(16.dp)
                     .clickable {
                         onClickItem.invoke()
                     },
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Spacer(
-                    Modifier
-                        .width(12.dp),
-                )
                 AsyncImage(
                     imageUrl = model.imageUrl,
                     loadingPlaceHolder = {
@@ -96,7 +102,13 @@ fun CountryItem(
                     style = MaterialTheme.typography.titleLarge,
                     color = Color.Black,
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .weight(1f),
+                )
+                Image(
+                    painter = painterResource("icons/ic_favorite_empty.png"),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(32.dp),
                 )
             }
         }

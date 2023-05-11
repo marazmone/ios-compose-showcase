@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
@@ -40,7 +41,9 @@ import presentation.tabs.list.detail.DetailScreen
 import presentation.ui.AppTheme
 import presentation.util.listen
 
-internal object ListTab : Tab, KoinComponent {
+internal class ListTab(
+    private val mainNavigator: Navigator,
+) : Tab, KoinComponent {
 
     override val options: TabOptions
         @Composable
@@ -59,14 +62,13 @@ internal object ListTab : Tab, KoinComponent {
 
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
         val viewStateModel by inject<ListViewStateModel>()
 
         ListScreen(
             state = viewStateModel.state.value,
             effects = viewStateModel.effects,
             onNavigateToDetail = { id ->
-                navigator.push(DetailScreen(id))
+                mainNavigator.push(DetailScreen(id))
             },
             onOpenDetailScreen = { id ->
                 viewStateModel.openDetailScreen(id)
@@ -92,7 +94,6 @@ fun ListScreen(
 
     Box(
         modifier = Modifier
-            .padding(vertical = 8.dp)
             .fillMaxSize(),
     ) {
         when {

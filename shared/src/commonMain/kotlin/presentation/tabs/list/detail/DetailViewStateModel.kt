@@ -1,6 +1,7 @@
 package presentation.tabs.list.detail
 
 import domain.usecase.detail.DetailGetUseCase
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.launch
 import presentation.base.BaseScreenStateModel
 import presentation.tabs.list.detail.DetailContract.Action
@@ -13,6 +14,10 @@ import presentation.tabs.list.detail.DetailContract.State
 class DetailViewStateModel(
     private val detailGetUseCase: DetailGetUseCase
 ) : BaseScreenStateModel<State, Action, Effect>() {
+
+    init {
+        Napier.d("DetailViewStateModel init ${this.hashCode()}")
+    }
 
     override fun setInitialState(): State = State()
 
