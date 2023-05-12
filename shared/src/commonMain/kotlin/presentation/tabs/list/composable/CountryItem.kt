@@ -32,7 +32,6 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import domain.model.CountryModel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
 import presentation.ui.AppTheme
 import presentation.util.AsyncImage
 
@@ -60,12 +59,15 @@ fun CountryItem(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
                 .clickable {
                     onClickItem.invoke(model.name)
                 },
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            Spacer(
+                modifier = Modifier
+                    .width(16.dp)
+            )
             AsyncImage(
                 imageUrl = model.imageUrl,
                 loadingPlaceHolder = {
@@ -118,6 +120,10 @@ fun CountryItem(
                     .clickable {
                         onClickFavorite.invoke(model.name, !model.isFavorite)
                     },
+            )
+            Spacer(
+                modifier = Modifier
+                    .width(16.dp)
             )
         }
     }

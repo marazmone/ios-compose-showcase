@@ -15,6 +15,6 @@
 
 ## Examples:Uploading ios.MP4…
 
-https://user-images.githubusercontent.com/7988862/235539443-8916b9c6-1ed3-42b7-89d1-f2ea49c47b23.mp4
+https://github.com/marazmone/ios-compose-showcase/assets/7988862/be36fcaf-7742-4909-b5e1-1966ddb09640
 
-https://user-images.githubusercontent.com/7988862/235539479-4c0cd364-2f49-40e0-bdcc-cb046599e371.MP4
+https://github.com/marazmone/ios-compose-showcase/assets/7988862/69d1fdd7-d8ca-4134-ad4f-3a7d16d08899
