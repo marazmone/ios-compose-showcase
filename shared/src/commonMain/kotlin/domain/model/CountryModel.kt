@@ -3,6 +3,7 @@ package domain.model
 data class CountryModel(
     val name: String,
     val imageUrl: String,
+    var isFavorite: Boolean,
 ) {
 
     companion object {
@@ -11,6 +12,7 @@ data class CountryModel(
             get() = CountryModel(
                 name = "Ukraine",
                 imageUrl = "",
+                isFavorite = false,
             )
     }
 }

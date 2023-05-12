@@ -54,7 +54,7 @@ android {
 dependencies {
     // Compose
     val composeBom = platform("androidx.compose:compose-bom:2023.04.01")
-    implementation(composeBom)
+    implementation("androidx.compose:compose-bom:2023.05.01")
 
     // Android Studio Preview support
     implementation("androidx.compose.ui:ui-tooling-preview")

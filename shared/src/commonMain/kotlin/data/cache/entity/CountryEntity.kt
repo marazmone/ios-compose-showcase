@@ -9,4 +9,6 @@ class CountryEntity : RealmObject {
     var name: String = ""
 
     var imageUrl: String = ""
+
+    var isFavorite: Boolean = false
 }

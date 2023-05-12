@@ -52,7 +52,7 @@ internal object MainScreen : Screen {
                             contentColor = Color.White,
                         ) {
                             TabNavigationItem(ListTab(navigator))
-                            TabNavigationItem(FavoriteTab)
+                            TabNavigationItem(FavoriteTab(navigator))
                         }
                         Spacer(
                             Modifier
@@ -75,7 +75,6 @@ internal object MainScreen : Screen {
             selected = tabNavigator.current.key == tab.key,
             onClick = { tabNavigator.current = tab },
             icon = { Icon(painter = tab.options.icon!!, contentDescription = tab.options.title) },
-            selectedContentColor = MaterialTheme.colorScheme.onSecondary,
         )
     }
 }

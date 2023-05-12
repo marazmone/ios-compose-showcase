@@ -12,7 +12,11 @@ interface CountryCacheDataSource {
 
     suspend fun getAll(): List<CountryEntity>
 
+    suspend fun updateFavorite(name: String, isFavorite: Boolean)
+
     fun observeAll(): Flow<List<CountryEntity>>
+
+    fun observeAllFavorite(): Flow<List<CountryEntity>>
 }
 
 interface CountryRemoteDataSource {
