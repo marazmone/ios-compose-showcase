@@ -24,6 +24,13 @@ class CountryRepositoryImpl(
         return entityToModelMapper.listAsync(entities)
     }
 
+    override suspend fun updateFavorite(name: String, isFavorite: Boolean) {
+        cache.updateFavorite(name, isFavorite)
+    }
+
     override fun observeAll(): Flow<List<CountryModel>> =
         cache.observeAll().map { entityToModelMapper.listAsync(it) }
+
+    override fun observeAllFavorite(): Flow<List<CountryModel>> =
+        cache.observeAllFavorite().map { entityToModelMapper.listAsync(it) }
 }

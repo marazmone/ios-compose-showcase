@@ -14,6 +14,8 @@ import domain.mapper.base.Mapper
 import domain.model.CountryModel
 import domain.repository.CountryRepository
 import domain.usecase.detail.DetailGetUseCase
+import domain.usecase.favorite.CountryObserveAllFavoriteUseCase
+import domain.usecase.favorite.CountryUpdateFavoriteUseCase
 import domain.usecase.list.CountryGetAllRemoteUseCase
 import domain.usecase.list.CountryObserveAllCacheUseCase
 import io.github.aakira.napier.DebugAntilog
@@ -35,8 +37,9 @@ import io.realm.kotlin.RealmConfiguration
 import kotlinx.serialization.json.Json
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import presentation.detail.DetailViewStateModel
-import presentation.list.ListViewStateModel
+import presentation.tabs.favorite.FavoriteViewStateModel
+import presentation.tabs.list.ListViewStateModel
+import presentation.tabs.list.detail.DetailViewStateModel
 
 fun cacheModule() = module {
     single {
@@ -125,6 +128,8 @@ fun repositoryModule() = module {
 fun useCaseModule() = module {
     factory { CountryGetAllRemoteUseCase(get()) }
     factory { CountryObserveAllCacheUseCase(get()) }
+    factory { CountryObserveAllFavoriteUseCase(get()) }
+    factory { CountryUpdateFavoriteUseCase(get()) }
     factory { DetailGetUseCase() }
 }
 
@@ -133,6 +138,13 @@ fun screenStateModelModule() = module {
         ListViewStateModel(
             countryGetAllRemoteUseCase = get(),
             countryObserveAllCacheUseCase = get(),
+            countryUpdateFavoriteUseCase = get(),
+        )
+    }
+    single {
+        FavoriteViewStateModel(
+            countryObserveAllFavoriteUseCase = get(),
+            countryUpdateFavoriteUseCase = get(),
         )
     }
     single { DetailViewStateModel(detailGetUseCase = get()) }

@@ -1,10 +1,10 @@
 package com.myapplication.preview.detail
 
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import presentation.detail.DetailContract.State
-import presentation.detail.DetailScreen
+import presentation.tabs.list.detail.DetailContract.State
+import presentation.tabs.list.detail.DetailScreen
+import presentation.ui.AppTheme
 
 @Preview(
     showBackground = true,
@@ -14,7 +14,7 @@ import presentation.detail.DetailScreen
 )
 @Composable
 fun DetailScreenPreview() {
-    MaterialTheme {
+    AppTheme {
         DetailScreen(
             state = State(
                 detail = "id=1"

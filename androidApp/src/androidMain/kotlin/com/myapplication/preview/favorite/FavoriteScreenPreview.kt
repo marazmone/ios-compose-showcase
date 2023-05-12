@@ -1,8 +1,8 @@
-package com.myapplication.preview.list
+package com.myapplication.preview.favorite
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import presentation.tabs.list.ListScreenPreview
+import presentation.tabs.favorite.FavoriteScreenPreview
 
 @Preview(
     showBackground = true,
@@ -11,6 +11,6 @@ import presentation.tabs.list.ListScreenPreview
     showSystemUi = true,
 )
 @Composable
-fun ListScreen_Preview() {
-    ListScreenPreview()
+fun FavoriteScreen_Preview() {
+    FavoriteScreenPreview()
 }

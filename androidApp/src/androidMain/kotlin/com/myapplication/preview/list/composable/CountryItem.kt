@@ -2,7 +2,8 @@ package com.myapplication.preview.list.composable
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import presentation.list.composable.CountryItemPreview
+import presentation.tabs.list.composable.CountryItemPreview
+import presentation.ui.AppTheme
 
 @Preview(
     showBackground = true,
@@ -12,5 +13,7 @@ import presentation.list.composable.CountryItemPreview
 )
 @Composable
 fun CountryItem_Preview() {
-    CountryItemPreview()
+    AppTheme {
+        CountryItemPreview()
+    }
 }

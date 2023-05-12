@@ -1,18 +1,23 @@
-package presentation.detail
+package presentation.tabs.list.detail
 
 import domain.usecase.detail.DetailGetUseCase
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.launch
 import presentation.base.BaseScreenStateModel
-import presentation.detail.DetailContract.Action
-import presentation.detail.DetailContract.Action.Error
-import presentation.detail.DetailContract.Action.Loading
-import presentation.detail.DetailContract.Action.Success
-import presentation.detail.DetailContract.Effect
-import presentation.detail.DetailContract.State
+import presentation.tabs.list.detail.DetailContract.Action
+import presentation.tabs.list.detail.DetailContract.Action.Error
+import presentation.tabs.list.detail.DetailContract.Action.Loading
+import presentation.tabs.list.detail.DetailContract.Action.Success
+import presentation.tabs.list.detail.DetailContract.Effect
+import presentation.tabs.list.detail.DetailContract.State
 
 class DetailViewStateModel(
     private val detailGetUseCase: DetailGetUseCase
 ) : BaseScreenStateModel<State, Action, Effect>() {
+
+    init {
+        Napier.d("DetailViewStateModel init ${this.hashCode()}")
+    }
 
     override fun setInitialState(): State = State()
 

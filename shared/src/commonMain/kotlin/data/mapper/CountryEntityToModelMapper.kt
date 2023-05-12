@@ -10,6 +10,7 @@ class CountryEntityToModelMapper : Mapper<CountryEntity, CountryModel> {
         CountryModel(
             name = source.name,
             imageUrl = source.imageUrl,
+            _isFavorite = source.isFavorite,
         )
 
     companion object {

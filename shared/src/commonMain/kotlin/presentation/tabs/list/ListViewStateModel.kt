@@ -1,20 +1,21 @@
-package presentation.list
+package presentation.tabs.list
 
+import domain.usecase.favorite.CountryUpdateFavoriteUseCase
 import domain.usecase.list.CountryGetAllRemoteUseCase
 import domain.usecase.list.CountryObserveAllCacheUseCase
 import kotlinx.coroutines.launch
 import presentation.base.BaseScreenStateModel
-import presentation.list.ListContract.Action
-import presentation.list.ListContract.Action.Error
-import presentation.list.ListContract.Action.Loading
-import presentation.list.ListContract.Action.Success
-import presentation.list.ListContract.Effect
-import presentation.list.ListContract.Effect.OpenDetailScreen
-import presentation.list.ListContract.State
+import presentation.tabs.list.ListContract.Action
+import presentation.tabs.list.ListContract.Action.Error
+import presentation.tabs.list.ListContract.Action.Loading
+import presentation.tabs.list.ListContract.Action.Success
+import presentation.tabs.list.ListContract.Effect
+import presentation.tabs.list.ListContract.State
 
 class ListViewStateModel(
     private val countryGetAllRemoteUseCase: CountryGetAllRemoteUseCase,
     private val countryObserveAllCacheUseCase: CountryObserveAllCacheUseCase,
+    private val countryUpdateFavoriteUseCase: CountryUpdateFavoriteUseCase,
 ) : BaseScreenStateModel<State, Action, Effect>() {
 
     init {
@@ -44,10 +45,6 @@ class ListViewStateModel(
         )
     }
 
-    fun openDetailScreen(id: String) {
-        sendEffect { OpenDetailScreen(id) }
-    }
-
     private fun getList() {
         launch {
             sendAction { Loading }
@@ -64,6 +61,12 @@ class ListViewStateModel(
             countryObserveAllCacheUseCase.execute().collect { list ->
                 if (list.isNotEmpty()) sendAction { Success(list) }
             }
+        }
+    }
+
+    fun changeFavorite(id: String, isFavorite: Boolean) {
+        launch {
+            countryUpdateFavoriteUseCase.execute(id, isFavorite)
         }
     }
 }

@@ -1,58 +1,69 @@
-package presentation.list
+package presentation.tabs.list
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.moriatsushi.insetsx.navigationBars
-import com.moriatsushi.insetsx.safeDrawing
 import com.moriatsushi.insetsx.statusBars
-import com.moriatsushi.insetsx.systemBars
 import domain.model.CountryModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import presentation.detail.DetailScreen
-import presentation.list.ListContract.Effect
-import presentation.list.ListContract.Effect.OpenDetailScreen
-import presentation.list.ListContract.State
-import presentation.list.composable.CountryItem
+import presentation.tabs.list.ListContract.State
+import presentation.tabs.list.composable.CountryItem
+import presentation.tabs.list.detail.DetailScreen
 import presentation.ui.AppTheme
-import presentation.util.listen
 
-internal class ListScreen : Screen, KoinComponent {
+internal class ListTab(
+    private val mainNavigator: Navigator,
+) : Tab, KoinComponent {
+
+    override val options: TabOptions
+        @Composable
+        get() {
+            val title = "List"
+            val icon = rememberVectorPainter(Icons.Default.List)
+
+            return remember {
+                TabOptions(
+                    index = 0u,
+                    title = title,
+                    icon = icon
+                )
+            }
+        }
 
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
         val viewStateModel by inject<ListViewStateModel>()
 
         ListScreen(
             state = viewStateModel.state.value,
-            effects = viewStateModel.effects,
-            onNavigateToDetail = { id ->
-                navigator.push(DetailScreen(id))
-            },
             onOpenDetailScreen = { id ->
-                viewStateModel.openDetailScreen(id)
+                mainNavigator.push(DetailScreen(id))
             },
+            onChangeFavorite = { id, isFavorite ->
+                viewStateModel.changeFavorite(id, isFavorite)
+            }
         )
     }
 }
@@ -60,18 +71,9 @@ internal class ListScreen : Screen, KoinComponent {
 @Composable
 fun ListScreen(
     state: State,
-    effects: Flow<Effect>,
-    onNavigateToDetail: (id: String) -> Unit,
     onOpenDetailScreen: (id: String) -> Unit,
+    onChangeFavorite: (id: String, isFavorite: Boolean) -> Unit,
 ) {
-    effects.listen { effect ->
-        when (effect) {
-            is OpenDetailScreen -> {
-                onNavigateToDetail.invoke(effect.id)
-            }
-        }
-    }
-
     Box(
         modifier = Modifier
             .fillMaxSize(),
@@ -91,17 +93,30 @@ fun ListScreen(
                 )
             }
 
+            state.list.isEmpty() -> {
+                Text(
+                    text = "No data",
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
+
             else -> {
                 LazyColumn(
                     contentPadding = WindowInsets.statusBars.add(WindowInsets.navigationBars).asPaddingValues(),
                 ) {
-                    items(state.list) { item ->
+                    items(
+                        state.list,
+                    ) { item ->
                         CountryItem(
                             model = item,
-                            onClickItem = {
-                                onOpenDetailScreen.invoke(item.name)
+                            onClickItem = { id ->
+                                onOpenDetailScreen.invoke(id)
+                            },
+                            onClickFavorite = { id, isFavorite ->
+                                onChangeFavorite.invoke(id, isFavorite)
                             }
                         )
+                        Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
             }
@@ -116,9 +131,8 @@ fun ListScreenPreview() {
             state = State(
                 list = List(10) { CountryModel.mockItem }
             ),
-            effects = emptyFlow(),
-            onNavigateToDetail = {},
             onOpenDetailScreen = {},
+            onChangeFavorite = { _, _ -> }
         )
     }
 }
