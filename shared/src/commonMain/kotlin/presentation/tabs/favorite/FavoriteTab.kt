@@ -9,11 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -30,7 +33,6 @@ import presentation.tabs.list.composable.CountryItem
 import presentation.tabs.list.detail.DetailScreen
 import presentation.ui.AppTheme
 
-@OptIn(ExperimentalResourceApi::class)
 internal class FavoriteTab(
     private val mainNavigator: Navigator,
 ) : Tab, KoinComponent {
@@ -39,7 +41,7 @@ internal class FavoriteTab(
         @Composable
         get() {
             val title = "Favorite"
-            val icon = painterResource("icons/ic_favorite_filled.png")
+            val icon = rememberVectorPainter(Icons.Default.Favorite)
 
             return remember {
                 TabOptions(
