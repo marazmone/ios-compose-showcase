@@ -11,6 +11,7 @@
 - [Ktor](https://ktor.io/) - Ktor is a lightweight, high-performance framework for building asynchronous client-side mobile apps using Kotlin
 - [Napier](https://github.com/AAkira/Napier) - Napier is a logger library for Kotlin Multiplatform
 - [Realm](https://github.com/realm/realm-kotlin) - Realm is a mobile database that runs directly inside phones, tablets or wearables
+- [InsetX](https://github.com/mori-atsushi/insetsx) - InsetX is a Kotlin Multiplatform library for managing window insets
 
 ## Examples:Uploading ios.MP4…
 
