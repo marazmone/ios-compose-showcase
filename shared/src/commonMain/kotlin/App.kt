@@ -1,6 +1,6 @@
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.Navigator
-import presentation.tabs.MainScreen
+import presentation.MainScreen
 import presentation.ui.AppTheme
 
 @Composable
