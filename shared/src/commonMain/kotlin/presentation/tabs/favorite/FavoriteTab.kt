@@ -18,24 +18,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.moriatsushi.insetsx.navigationBars
 import com.moriatsushi.insetsx.statusBars
 import domain.model.CountryModel
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import presentation.tabs.favorite.FavoriteContract.State
 import presentation.tabs.list.composable.CountryItem
 import presentation.tabs.list.detail.DetailScreen
 import presentation.ui.AppTheme
+import presentation.util.mainOrThrow
 
-internal class FavoriteTab(
-    private val mainNavigator: Navigator,
-) : Tab, KoinComponent {
+internal object FavoriteTab : Tab, KoinComponent {
 
     override val options: TabOptions
         @Composable
@@ -56,6 +53,7 @@ internal class FavoriteTab(
     @Composable
     override fun Content() {
         val viewStateModel by inject<FavoriteViewStateModel>()
+        val mainNavigator = LocalNavigator.mainOrThrow
 
         FavoriteScreen(
             state = viewStateModel.state.value,

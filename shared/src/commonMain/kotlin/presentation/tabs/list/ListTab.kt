@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.moriatsushi.insetsx.navigationBars
@@ -32,10 +32,9 @@ import presentation.tabs.list.ListContract.State
 import presentation.tabs.list.composable.CountryItem
 import presentation.tabs.list.detail.DetailScreen
 import presentation.ui.AppTheme
+import presentation.util.mainOrThrow
 
-internal class ListTab(
-    private val mainNavigator: Navigator,
-) : Tab, KoinComponent {
+internal object ListTab : Tab, KoinComponent {
 
     override val options: TabOptions
         @Composable
@@ -55,6 +54,7 @@ internal class ListTab(
     @Composable
     override fun Content() {
         val viewStateModel by inject<ListViewStateModel>()
+        val mainNavigator = LocalNavigator.mainOrThrow
 
         ListScreen(
             state = viewStateModel.state.value,
