@@ -89,7 +89,10 @@ fun FavoriteScreen(
                 LazyColumn(
                     contentPadding = WindowInsets.statusBars.add(WindowInsets.navigationBars).asPaddingValues(),
                 ) {
-                    items(state.list) { item ->
+                    items(
+                        items = state.list,
+                        key = { item -> item.name },
+                    ) { item ->
                         CountryItem(
                             model = item,
                             onClickItem = { id ->
