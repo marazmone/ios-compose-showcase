@@ -105,7 +105,8 @@ fun ListScreen(
                     contentPadding = WindowInsets.statusBars.add(WindowInsets.navigationBars).asPaddingValues(),
                 ) {
                     items(
-                        state.list,
+                        items = state.list,
+                        key = { item -> item.name },
                     ) { item ->
                         CountryItem(
                             model = item,
