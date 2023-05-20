@@ -1,22 +1,33 @@
 package presentation.tabs.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
@@ -24,7 +35,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.moriatsushi.insetsx.navigationBars
-import com.moriatsushi.insetsx.statusBars
+import com.moriatsushi.insetsx.statusBarsPadding
 import domain.model.CountryModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -63,47 +74,106 @@ internal object ListTab : Tab, KoinComponent {
             },
             onChangeFavorite = { id, isFavorite ->
                 viewStateModel.changeFavorite(id, isFavorite)
+            },
+            onSearchText = { query ->
+                viewStateModel.search(query)
             }
         )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListScreen(
     state: State,
     onOpenDetailScreen: (id: String) -> Unit,
     onChangeFavorite: (id: String, isFavorite: Boolean) -> Unit,
+    onSearchText: (query: String) -> Unit,
 ) {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize(),
     ) {
+        TextField(
+            value = state.searchQuery,
+            onValueChange = { query ->
+                onSearchText.invoke(query)
+            },
+            leadingIcon = {
+                Icon(
+                    painter = rememberVectorPainter(Icons.Default.Search),
+                    contentDescription = null,
+                )
+            },
+            trailingIcon = {
+                Icon(
+                    painter = rememberVectorPainter(Icons.Default.Close),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .clickable {
+                            onSearchText.invoke("")
+                        },
+                )
+            },
+            shape = CircleShape,
+            colors = TextFieldDefaults.textFieldColors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+            ),
+            modifier = Modifier
+                .statusBarsPadding()
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .padding(horizontal = 16.dp),
+        )
         when {
             state.isLoading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                )
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(
+                            alignment = Alignment.Center,
+                        ),
+                    )
+                }
             }
 
             state.isError -> {
-                Text(
-                    text = state.errorMessage,
-                    color = Color.Red,
-                    modifier = Modifier.align(Alignment.Center),
-                )
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    Text(
+                        text = state.errorMessage,
+                        color = Color.Red,
+                        modifier = Modifier.align(
+                            alignment = Alignment.Center,
+                        ),
+                    )
+                }
             }
 
             state.list.isEmpty() -> {
-                Text(
-                    text = "No data",
-                    modifier = Modifier.align(Alignment.Center),
-                )
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    Text(
+                        text = "No data",
+                        modifier = Modifier.align(
+                            alignment = Alignment.Center,
+                        ),
+                    )
+                }
             }
 
             else -> {
                 LazyColumn(
-                    contentPadding = WindowInsets.statusBars.add(WindowInsets.navigationBars).asPaddingValues(),
+                    contentPadding = WindowInsets.navigationBars.asPaddingValues(),
                 ) {
+                    item {
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                     items(
                         items = state.list,
                         key = { item -> item.name },
@@ -133,7 +203,8 @@ fun ListScreenPreview() {
                 list = List(10) { CountryModel.mockItem }
             ),
             onOpenDetailScreen = {},
-            onChangeFavorite = { _, _ -> }
+            onChangeFavorite = { _, _ -> },
+            onSearchText = {},
         )
     }
 }

@@ -13,8 +13,8 @@
 - [Realm](https://github.com/realm/realm-kotlin) - Realm is a mobile database that runs directly inside phones, tablets or wearables
 - [InsetX](https://github.com/mori-atsushi/insetsx) - InsetX is a Kotlin Multiplatform library for managing window insets
 
-## Examples:Uploading ios.MP4…
+## Examples:
 
-https://github.com/marazmone/ios-compose-showcase/assets/7988862/be36fcaf-7742-4909-b5e1-1966ddb09640
+https://github.com/marazmone/ios-compose-showcase/assets/7988862/1b32cf6c-a594-4167-b8d2-4df1b8e5c297
 
-https://github.com/marazmone/ios-compose-showcase/assets/7988862/69d1fdd7-d8ca-4134-ad4f-3a7d16d08899
+https://github.com/marazmone/ios-compose-showcase/assets/7988862/ddb0883f-4a4c-46a1-9088-267f1ebfb74d

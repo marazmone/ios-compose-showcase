@@ -8,6 +8,7 @@ import presentation.base.BaseScreenStateModel
 import presentation.tabs.list.ListContract.Action
 import presentation.tabs.list.ListContract.Action.Error
 import presentation.tabs.list.ListContract.Action.Loading
+import presentation.tabs.list.ListContract.Action.Search
 import presentation.tabs.list.ListContract.Action.Success
 import presentation.tabs.list.ListContract.Effect
 import presentation.tabs.list.ListContract.State
@@ -41,8 +42,25 @@ class ListViewStateModel(
         is Success -> currentState.copy(
             isLoading = false,
             isError = false,
-            list = action.list
+            list = action.list,
+            stableList = action.list,
         )
+
+        is Search -> currentState.copy(
+            searchQuery = action.query,
+            list = action.list,
+        )
+    }
+
+    fun changeFavorite(id: String, isFavorite: Boolean) {
+        launch {
+            countryUpdateFavoriteUseCase.execute(id, isFavorite)
+        }
+    }
+
+    fun search(query: String) {
+        sendAction { Search(query, state.value.stableList.filter { it.name.contains(query, ignoreCase = true) }) }
+        if (query.isEmpty()) sendAction { Success(state.value.stableList) }
     }
 
     private fun getList() {
@@ -61,12 +79,6 @@ class ListViewStateModel(
             countryObserveAllCacheUseCase.execute().collect { list ->
                 if (list.isNotEmpty()) sendAction { Success(list) }
             }
-        }
-    }
-
-    fun changeFavorite(id: String, isFavorite: Boolean) {
-        launch {
-            countryUpdateFavoriteUseCase.execute(id, isFavorite)
         }
     }
 }

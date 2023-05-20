@@ -12,6 +12,8 @@ class ListContract {
         val isError: Boolean = false,
         val errorMessage: String = "",
         val list: List<CountryModel> = emptyList(),
+        val stableList: List<CountryModel> = emptyList(),
+        val searchQuery: String = "",
     ) : BaseViewState
 
     sealed interface Action : BaseViewAction {
@@ -21,6 +23,8 @@ class ListContract {
         data class Error(val errorMessage: String) : Action
 
         data class Success(val list: List<CountryModel>) : Action
+
+        data class Search(val query: String, val list: List<CountryModel>) : Action
     }
 
     sealed interface Effect : BaseViewEffect
