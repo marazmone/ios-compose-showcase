@@ -27,5 +27,8 @@ class ListContract {
         data class Search(val query: String, val list: List<CountryModel>) : Action
     }
 
-    sealed interface Effect : BaseViewEffect
+    sealed interface Effect : BaseViewEffect {
+
+        data class ShowAddFavoriteSnackBar(val text: String) : Effect
+    }
 }
