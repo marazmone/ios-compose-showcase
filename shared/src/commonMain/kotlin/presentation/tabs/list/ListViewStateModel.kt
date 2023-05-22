@@ -11,6 +11,7 @@ import presentation.tabs.list.ListContract.Action.Loading
 import presentation.tabs.list.ListContract.Action.Search
 import presentation.tabs.list.ListContract.Action.Success
 import presentation.tabs.list.ListContract.Effect
+import presentation.tabs.list.ListContract.Effect.ShowAddFavoriteSnackBar
 import presentation.tabs.list.ListContract.State
 
 class ListViewStateModel(
@@ -55,6 +56,10 @@ class ListViewStateModel(
     fun changeFavorite(id: String, isFavorite: Boolean) {
         launch {
             countryUpdateFavoriteUseCase.execute(id, isFavorite)
+            sendEffect {
+                val actionText = if (isFavorite) "$id added to favorites" else "$id removed from favorites"
+                ShowAddFavoriteSnackBar(actionText)
+            }
         }
     }
 
