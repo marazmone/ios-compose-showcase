@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,7 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.ContentScale.Companion
 import androidx.compose.ui.unit.dp
 import domain.model.CountryModel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -52,79 +56,80 @@ fun CountryItem(
         ),
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .fillMaxWidth()
-            .height(60.dp),
+            .fillMaxWidth(),
         shape = MaterialTheme.shapes.large,
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .clickable {
                     onClickItem.invoke(model.name)
                 },
-            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Spacer(
-                modifier = Modifier
-                    .width(16.dp)
-            )
-            AsyncImage(
-                imageUrl = model.imageUrl,
-                loadingPlaceHolder = {
-                    Box(
-                        modifier = Modifier
-                            .size(44.dp),
-                    ) {
-                        CircularProgressIndicator(
+            Box {
+                AsyncImage(
+                    imageUrl = model.imageUrl,
+                    loadingPlaceHolder = {
+                        Box(
                             modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight(),
+                        ) {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .align(Alignment.Center),
+                            )
+                        }
+                    },
+                    errorPlaceHolder = {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight()
+                                .background(Color.Gray)
                                 .align(Alignment.Center),
                         )
-                    }
-                },
-                errorPlaceHolder = {
-                    Box(
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    contentScale = ContentScale.FillBounds,
+                )
+                val painter = if (model.isFavorite) {
+                    rememberVectorPainter(Icons.Default.Favorite)
+                } else {
+                    rememberVectorPainter(Icons.Default.FavoriteBorder)
+                }
+                Box(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .clip(CircleShape)
+                        .background(Color.Gray.copy(alpha = 0.5f))
+                        .clip(CircleShape)
+                        .clickable {
+                            onClickFavorite.invoke(model.name, !model.isFavorite)
+                        }
+                        .padding(8.dp)
+                        .align(Alignment.BottomEnd),
+                ) {
+                    Image(
+                        painter = painter,
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Color.Magenta),
                         modifier = Modifier
-                            .size(44.dp)
-                            .background(Color.Gray)
-                            .align(Alignment.Center),
+                            .size(40.dp)
                     )
-                },
-                modifier = Modifier
-                    .width(60.dp)
-                    .heightIn(max = 44.dp)
-                    .wrapContentHeight()
-                    .align(Alignment.CenterVertically),
-            )
-            Spacer(
-                Modifier
-                    .width(12.dp),
-            )
+                }
+            }
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = model.name,
                 style = MaterialTheme.typography.titleLarge,
                 color = Color.Black,
                 modifier = Modifier
-                    .weight(1f),
+                    .padding(horizontal = 16.dp),
             )
-            val painter = if (model.isFavorite) {
-                rememberVectorPainter(Icons.Default.Favorite)
-            } else {
-                rememberVectorPainter(Icons.Default.FavoriteBorder)
-            }
-            Image(
-                painter = painter,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .clickable {
-                        onClickFavorite.invoke(model.name, !model.isFavorite)
-                    },
-            )
-            Spacer(
-                modifier = Modifier
-                    .width(16.dp)
-            )
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

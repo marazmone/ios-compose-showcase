@@ -45,14 +45,14 @@ class CountryCacheDataSourceImpl(
     override fun observeAll(): Flow<List<CountryEntity>> =
         realm.query<CountryEntity>().find().asFlow().map { change ->
             when (change) {
-                is InitialResults, is UpdatedResults -> change.list
+                is InitialResults, is UpdatedResults -> change.list.sortedBy { it.name }
             }
         }
 
     override fun observeAllFavorite(): Flow<List<CountryEntity>> =
         realm.query<CountryEntity>("isFavorite == $0", true).find().asFlow().map { change ->
             when (change) {
-                is InitialResults, is UpdatedResults -> change.list
+                is InitialResults, is UpdatedResults -> change.list.sortedBy { it.name }
             }
         }
 }

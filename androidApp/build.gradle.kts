@@ -54,13 +54,13 @@ android {
 dependencies {
     // Compose
     val composeBom = platform("androidx.compose:compose-bom:2023.04.01")
-    implementation("androidx.compose:compose-bom:2023.05.01")
+    implementation("androidx.compose:compose-bom:2023.06.00")
 
     // Android Studio Preview support
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     // Koin
-    implementation("io.insert-koin:koin-core:3.4.0")
-    implementation("io.insert-koin:koin-android:3.4.0")
+    implementation("io.insert-koin:koin-core:3.4.2")
+    implementation("io.insert-koin:koin-android:3.4.2")
 }
