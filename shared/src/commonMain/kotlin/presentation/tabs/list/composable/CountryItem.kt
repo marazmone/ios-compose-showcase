@@ -5,15 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -32,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.ContentScale.Companion
 import androidx.compose.ui.unit.dp
 import domain.model.CountryModel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -123,8 +119,24 @@ fun CountryItem(
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = model.name,
+                text = model.name.plus(" ").plus(model.flag),
                 style = MaterialTheme.typography.titleLarge,
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp),
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Capital: ${model.capitals.ifEmpty { listOf("-") }.first()}",
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp),
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "Population: ${model.formattedPopulation}",
+                style = MaterialTheme.typography.bodyLarge,
                 color = Color.Black,
                 modifier = Modifier
                     .padding(horizontal = 16.dp),
