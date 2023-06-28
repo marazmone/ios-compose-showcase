@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Країни</string>
+    <string name="population">Населення: %s</string>
+    <string name="capital">Столиця: %s</string>
+</resources>

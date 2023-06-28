@@ -32,6 +32,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import domain.model.CountryModel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import presentation.text.Strings
 import presentation.ui.AppTheme
 import presentation.util.AsyncImage
 
@@ -127,7 +128,7 @@ fun CountryItem(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Capital: ${model.capitals.ifEmpty { listOf("-") }.first()}",
+                text = Strings.format(id = "capital", model.capitals.ifEmpty { listOf("-") }.first()),
                 style = MaterialTheme.typography.bodyLarge,
                 color = Color.Black,
                 modifier = Modifier
@@ -135,7 +136,7 @@ fun CountryItem(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Population: ${model.formattedPopulation}",
+                text = Strings.format(id = "population", model.formattedPopulation),
                 style = MaterialTheme.typography.bodyLarge,
                 color = Color.Black,
                 modifier = Modifier

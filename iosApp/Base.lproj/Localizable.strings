@@ -1,0 +1,9 @@
+/* 
+  Localizable.strings
+  iosApp
+
+  Created by user on 28.06.2023.
+  Copyright © 2023 orgName. All rights reserved.
+*/
+"population" = "Population: %@";
+"capital" = "Capital: %@";
