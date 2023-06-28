@@ -9,6 +9,12 @@ data class CountryResponse(
     val name: Name? = null,
     @SerialName("flags")
     val flags: Flags? = null,
+    @SerialName("capital")
+    val capitals: List<String>? = null,
+    @SerialName("population")
+    val population: Int? = null,
+    @SerialName("flag")
+    val flag: String? = null,
 ) {
 
     @Serializable

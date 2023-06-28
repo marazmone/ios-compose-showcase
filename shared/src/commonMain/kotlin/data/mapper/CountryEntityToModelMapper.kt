@@ -11,6 +11,9 @@ class CountryEntityToModelMapper : Mapper<CountryEntity, CountryModel> {
             name = source.name,
             imageUrl = source.imageUrl,
             _isFavorite = source.isFavorite,
+            capitals = source.capitals,
+            _population = source.population,
+            flag = source.flag,
         )
 
     companion object {

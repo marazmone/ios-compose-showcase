@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">My application</string>
+    <string name="app_name">Countries</string>
+    <string name="population">Population: %s</string>
+    <string name="capital">Capital: %s</string>
 </resources>
