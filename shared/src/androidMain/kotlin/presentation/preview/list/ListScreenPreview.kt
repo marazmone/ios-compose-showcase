@@ -1,9 +1,8 @@
-package com.myapplication.preview.list.composable
+package presentation.preview.list
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import presentation.tabs.list.composable.CountryItemPreview
-import presentation.ui.AppTheme
+import presentation.tabs.list.ListScreenPreview
 
 @Preview(
     showBackground = true,
@@ -12,8 +11,6 @@ import presentation.ui.AppTheme
     showSystemUi = true,
 )
 @Composable
-fun CountryItem_Preview() {
-    AppTheme {
-        CountryItemPreview()
-    }
+fun ListScreen_Preview() {
+    ListScreenPreview()
 }

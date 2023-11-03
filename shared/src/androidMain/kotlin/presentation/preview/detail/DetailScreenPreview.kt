@@ -1,4 +1,4 @@
-package com.myapplication.preview.detail
+package presentation.preview.detail
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
