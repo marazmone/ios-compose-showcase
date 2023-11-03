@@ -1,0 +1,60 @@
+[versions]
+coilCompose = "2.5.0"
+coreKtx = "1.12.0"
+appcompat = "1.6.1"
+activityCompose = "1.8.0"
+gradle = "8.1.2"
+insetsx = "0.1.0-alpha10"
+insetsxVersion = "0.1.0-alpha10"
+koinCore = "3.5.0"
+kotlin = "1.9.10"
+composeMultiplatform = "1.5.10"
+realm = "1.12.0"
+napier = "2.6.1"
+ktor = "2.3.5"
+voyager = "1.0.0-rc08"
+kotlinCoroutines = "1.7.3"
+jdk = "17"
+compileSdk = "34"
+minSdk = "24"
+composeBom = "2023.10.01"
+
+
+[libraries]
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "gradle" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+insetsx = { module = "com.moriatsushi.insetsx:insetsx", version.ref = "insetsxVersion" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinCore" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+library-sync = { module = "io.realm.kotlin:library-sync", version.ref = "realm" }
+library-base = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
+napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-json = { module = "io.ktor:ktor-client-json", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+voyager-tab-navigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+
+[plugins]
+compose = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
+android-library = { id = "com.android.library", version.ref = "gradle" }
+android-application = { id = "com.android.application", version.ref = "gradle" }
+android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+nativeCocoapod = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+realm = { id = "io.realm.kotlin", version.ref = "realm" }

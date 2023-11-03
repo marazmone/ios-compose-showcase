@@ -1,66 +1,50 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    kotlin("multiplatform")
-    id("com.android.application")
-    id("org.jetbrains.compose")
+    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.compose)
 }
 
 kotlin {
-    android()
+    androidTarget()
     sourceSets {
         val androidMain by getting {
             dependencies {
                 implementation(project(":shared"))
+
+                // Koin
+                implementation(libs.koin.core)
+                implementation(libs.koin.android)
             }
         }
     }
 }
 
 android {
-    compileSdk = (findProperty("android.compileSdk") as String).toInt()
-    namespace = "com.myapplication"
+    compileSdk = libs.versions.compileSdk.get().toInt()
+    namespace = "com.marazmone.kmmshowcase"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
     defaultConfig {
-        applicationId = "com.myapplication.MyApplication"
-        minSdk = (findProperty("android.minSdk") as String).toInt()
-        targetSdk = (findProperty("android.targetSdk") as String).toInt()
+        applicationId = "com.marazmone.kmmshowcase.android"
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.compileSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+    buildFeatures {
+        buildConfig = true
     }
-    kotlin {
-        jvmToolchain(11)
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     composeOptions {
-        val composeVersion = extra["compose.version"] as String
-        kotlinCompilerExtensionVersion = composeVersion
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
-    buildFeatures {
-        compose = true
+    kotlin {
+        jvmToolchain(libs.versions.jdk.get().toInt())
     }
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = "11"
-        }
-    }
-}
-
-dependencies {
-    // Compose
-    val composeBom = platform("androidx.compose:compose-bom:2023.04.01")
-    implementation("androidx.compose:compose-bom:2023.06.00")
-
-    // Android Studio Preview support
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-
-    // Koin
-    implementation("io.insert-koin:koin-core:3.4.2")
-    implementation("io.insert-koin:koin-android:3.4.2")
 }

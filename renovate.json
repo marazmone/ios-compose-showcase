@@ -1,0 +1,28 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["org.jetbrains.kotlin.*"],
+      "enabled": false
+    },
+    {
+      "matchPackagePatterns": ["com.android.application"],
+      "enabled": false
+    },
+    {
+      "matchPackagePatterns": ["com.android.library"],
+      "enabled": false
+    },
+    {
+      "matchPackagePatterns": ["com.android.tools.build:gradle"],
+      "enabled": false
+    },
+    {
+      "matchPackagePatterns": ["gradle"],
+      "enabled": false
+    }
+  ]
+}

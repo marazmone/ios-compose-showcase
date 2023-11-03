@@ -1,4 +1,4 @@
-package com.myapplication.preview.favorite
+package presentation.preview.favorite
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview

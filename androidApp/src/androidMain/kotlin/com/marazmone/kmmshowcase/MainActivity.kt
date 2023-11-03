@@ -1,7 +1,6 @@
-package com.myapplication
+package com.marazmone.kmmshowcase
 
 import MainView
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
