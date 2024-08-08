@@ -115,7 +115,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.4"
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
     kotlin {
         jvmToolchain(libs.versions.jdk.get().toInt())
